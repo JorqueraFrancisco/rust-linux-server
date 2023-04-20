@@ -1,0 +1,10 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  rust:
+    build: .
+    ports:
+      - "28015:28015"
+      - "28016:28016"
+    env_file:
+      - ./environment/server.env
+    tty: true
