@@ -6,5 +6,5 @@ services:
       - "28015:28015"
       - "28016:28016"
     env_file:
-      - ./environment/server_config.env
+      - ./environment/server.env
     tty: true
