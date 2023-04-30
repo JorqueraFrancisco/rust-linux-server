@@ -1,23 +1,33 @@
-FROM cm2network/steamcmd:root
+FROM ubuntu:22.04
 
-ENV APPDIR "${HOMEDIR}/steamcmd/rust-server"
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+    wget lib32gcc-s1 tmux screen curl libsqlite3-0 \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN set -x \
-    && apt-get update \
-	&& apt-get install -y --no-install-recommends --no-install-suggests \
-		wget=1.21-1+deb11u1 \
-		ca-certificates=20210119 \
-		lib32z1=1:1.2.11.dfsg-2+deb11u1 \       
-    && ./steamcmd.sh \
-        +force_install_dir "${APPDIR}" \
-        +login anonymous \
-        +app_update 258550 validate \ 
-        +quit
+RUN useradd -m steam
 
-COPY ./etc ${APPDIR}
+USER steam
 
-RUN chmod +x "${APPDIR}"/entry.sh
+# Descarga e instala SteamCMD en su propia capa
+RUN cd /home/steam \
+    && mkdir -p rust/steamcmd && cd rust/steamcmd \
+    && curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf -
 
-WORKDIR ${APPDIR}
+# Actualiza y valida la aplicación Rust utilizando SteamCMD en una capa separada
+RUN cd /home/steam/rust/steamcmd \
+        &&  ./steamcmd.sh \
+            +force_install_dir /home/steam/rust \
+            +login anonymous \
+            +app_update 258550 validate \
+            +quit
 
-# CMD ["bash", "entry.sh"]
+# Establece el directorio de trabajo en /steamcmd
+WORKDIR /home/steam/rust
+
+COPY ./etc/entry.sh /home/steam/rust
+
+USER root
+RUN chown steam:steam /home/steam/rust/entry.sh && chmod u+x /home/steam/rust/entry.sh
+USER steam
+
+# CMD ["/bin/bash", "./entry.sh"]
