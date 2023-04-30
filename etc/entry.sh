@@ -1,12 +1,11 @@
 #!/bin/bash
 
-# wget https://www.dropbox.com/s/3mraw9li6oypw90/Facepunch.Sqlite.dll
-# rm /home/steam/rust-dedicated/RustDedicated_Data/Managed/Facepunch.Sqlite.dll
-# mv Facepunch.Sqlite.dll /home/steam/rust-dedicated/RustDedicated_Data/Managed
 
-${APPDIR}/./RustDedicated -batchmode \
+
+./RustDedicated -batchmode \
 +server.ip ${SERVER_IP} \
 +server.port ${SERVER_PORT} \
++server.queryport ${SERVER_QUERYPORT} \
 +server.level "Procedural Map" \
 +server.hostname  ${SERVER_HOSTNAME} \
 +server.identity ${SERVER_IDENTITY} \
