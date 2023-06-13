@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 ./RustDedicated -batchmode \
 +server.ip ${SERVER_IP} \
 +server.port ${SERVER_PORT} \
