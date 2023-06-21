@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y wget lib32gcc-s1 tmux screen curl libsqlite3-0 && \
+    apt-get install -y wget lib32gcc-s1 tmux screen curl libsqlite3-0 libgdiplus && \
     rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m steam
