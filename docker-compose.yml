@@ -3,8 +3,9 @@ services:
   rust:
     build: .
     ports:
-      - "28015:28015"
-      - "28016:28016"
+      - 28015:28015
+      - 28015:28015/udp
+      - 28016:28016
     env_file:
       - ./environment/server_config.env
     tty: true
