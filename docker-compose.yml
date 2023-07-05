@@ -6,6 +6,8 @@ services:
       - 28015:28015
       - 28015:28015/udp
       - 28016:28016
+    volumes:
+      - ./server:/home/steam/rust/server
     env_file:
       - ./environment/server_config.env
     tty: true
